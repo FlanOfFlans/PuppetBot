@@ -1,6 +1,6 @@
 # PuppetBot
 
-A remote-control Discord "user" that will report back when pinged or PM'd (note, PM reporting is not yet implemented).
+A remote-control Discord "user" that will report back when pinged or PM'd.
 
 ## Getting Started
 
