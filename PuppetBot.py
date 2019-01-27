@@ -142,6 +142,7 @@ async def on_message(message):
     
     if message.author.id in ignore_ids:
         return #don't respond to ignored users
+
     
     if message.author.id in puppet_master_ids:
         if message.content.startswith(prefix + "say"):
@@ -160,9 +161,13 @@ async def on_message(message):
                 
                 output_message = match.group(2)
                 await client.send_message(target, output_message)
-        
-    if client.user in message.mentions:
-        await client.send_message(output, "I've been pinged!\n" + message.content)
+
+    if message.server == None: #If there's no server, it must be a PM
+        await client.send_message(output, "I've been PM'd by " + message.author.name + "!\n" + message.content)
+
+    #This is an elif, because we only need to report once if somebody pings in a PM.
+    elif client.user in message.mentions:
+        await client.send_message(output, "I've been pinged by" + message.author.name + "!\n" + message.content)
 
 
 client.run(token)
