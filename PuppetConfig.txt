@@ -1,0 +1,32 @@
+#This is a config file for a PuppetBot.
+#Pound signs mark comments; these do nothing but provide information.
+#Commands are separated from data with a colon (:)
+#Valid config commands:
+
+#server:[SERVER_ID] - Sets home server. Must be a server the bot is in.
+#home_channel:[CHANNEL_ID] - Sets home channel. Must be a channel in home server the bot has access to.
+#master:[MASTER_ID] - Adds this user as a puppet master, allowing them to control the bot. There can be multiple.
+#ignore:[IGNORE_ID] - Ignores this user's pings. Cannot be a puppet master.
+#prefix:[PREFIX] - Sets this as the prefix for commanding the bot. If not set, "pb!" will be used instead.
+#token:[TOKEN] - Uses this token to run the bot. To get a token, go to https://discordapp.com/developers/applications/, sign in, hit new application, customize the name and avatar of your puppet, go to the Bot tab, press "Add Bot", and copy the token.
+
+#Anything else WILL cause a crash.
+#To find IDs, in Discord, go to user settings > appearance, and enable developer mode. Right click the thing you want an ID for, and press Copy ID.
+#WARNING: If using multiple PuppetBot instances, set them to ignore each other; an attacker may cause them to ping each other infinitely if you don't.
+
+#Example configuration:
+
+#server:000000000000000000
+#home_channel:000000000000000000
+
+##XxJeremyxX:
+#master:000000000000000000
+##FlanOfFlans:
+#master:000000000000000001
+
+##Other puppet:
+#ignore:000000000000000000
+
+#token:00000000000000000000000000000000000000000000000000000000000
+
+#prefix:xy!
