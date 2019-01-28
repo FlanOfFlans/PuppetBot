@@ -28,7 +28,7 @@ for line in config_lines:
         token = line.split(":")[1] #still everything after first colon
 
 say_regex = re.compile("^" + prefix + "say ([^ ]+) (.*)$")
-
+pm_regex = re.compile("^" + prefix + "pm \"(.+)\" (.+)$")
 
 
 @client.event
@@ -145,6 +145,16 @@ async def on_message(message):
 
     
     if message.author.id in puppet_master_ids:
+        if message.content.startswith(prefix + "pm"):
+            match = re.match(pm_regex, message.content)
+            if match != None:
+                target = home_server.get_member_named(match.group(1))
+                if target == None:
+                    await client.send_message(message.channel, "Invalid target.")
+                else:
+                    await client.send_message(target, match.group(2))
+
+        
         if message.content.startswith(prefix + "say"):
             match = re.match(say_regex, message.content)
             if match != None:
