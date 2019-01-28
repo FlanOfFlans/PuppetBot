@@ -31,6 +31,10 @@ say_regex = re.compile("^" + prefix + "say ([^ ]+) (.*)$")
 pm_regex = re.compile("^" + prefix + "pm \"(.+)\" (.+)$")
 
 
+
+async def post(channel, content):
+    await client.send_message(channel, '\x00' + content)
+
 @client.event
 async def on_ready():
     #yes, globals are largely bad, but they seem unavoidable here.
@@ -40,10 +44,8 @@ async def on_ready():
     global token
     global puppet_master_ids
     global ignore_ids
-    global prefix
-
-    ignore_ids.append(client.user.id)
-
+    global prefix 
+    ignore_ids.append(client.user.id) 
     for line in config_lines:
         if line == "": #ignore blank lines
             continue
@@ -150,9 +152,9 @@ async def on_message(message):
             if match != None:
                 target = home_server.get_member_named(match.group(1))
                 if target == None:
-                    await client.send_message(message.channel, "Invalid target.")
+                    await post(message.channel, "Invalid target.")
                 else:
-                    await client.send_message(target, match.group(2))
+                    await post(target, match.group(2))
 
         
         if message.content.startswith(prefix + "say"):
@@ -166,18 +168,18 @@ async def on_message(message):
 
                 #this else belongs to for, NOT if
                 else:
-                    client.send_message(message.channel, "Invalid channel.")
+                    post(message.channel, "Invalid channel.")
                     return
                 
                 output_message = match.group(2)
-                await client.send_message(target, output_message)
+                await post(target, output_message)
 
     if message.server == None: #If there's no server, it must be a PM
-        await client.send_message(output, "I've been PM'd by " + message.author.name + "!\n" + message.content)
+        await post(output, "I've been PM'd by " + message.author.name + "!\n" + message.content)
 
     #This is an elif, because we only need to report once if somebody pings in a PM.
     elif client.user in message.mentions:
-        await client.send_message(output, "I've been pinged by" + message.author.name + "!\n" + message.content)
+        await post(output, "I've been pinged by" + message.author.name + "!\n" + message.content)
 
 
 client.run(token)
