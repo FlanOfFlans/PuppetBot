@@ -33,7 +33,7 @@ pm_regex = re.compile("^" + prefix + "pm \"(.+)\" (.+)$")
 
 
 async def post(channel, content):
-    await client.send_message(channel, '\x00' + content)
+    await client.send_message(channel, u"\u200B" + content)
 
 @client.event
 async def on_ready():
@@ -145,6 +145,8 @@ async def on_message(message):
     if message.author.id in ignore_ids:
         return #don't respond to ignored users
 
+    if message.content[0] == u"\u200B":
+        return #don't respond to other puppetbots; all puppetbot messages are prefixed with ASCII null
     
     if message.author.id in puppet_master_ids:
         if message.content.startswith(prefix + "pm"):
@@ -179,7 +181,7 @@ async def on_message(message):
 
     #This is an elif, because we only need to report once if somebody pings in a PM.
     elif client.user in message.mentions:
-        await post(output, "I've been pinged by" + message.author.name + "!\n" + message.content)
+        await post(output, "I've been pinged by " + message.author.name + "!\n" + message.content)
 
 
 client.run(token)
