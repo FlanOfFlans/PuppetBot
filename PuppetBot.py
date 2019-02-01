@@ -12,6 +12,7 @@ token = None
 puppet_master_ids = []
 ignore_ids = []
 prefix = "pb!"
+prefix_been_set = False
 
 config_file = open("PuppetConfig.txt", 'r') #todo: make this a cli argument
 
@@ -27,8 +28,8 @@ for line in config_lines:
 
         token = line.split(":")[1] #still everything after first colon
 
-say_regex = re.compile("^" + prefix + "say ([^ ]+) (.*)$")
-pm_regex = re.compile("^" + prefix + "pm \"(.+)\" (.+)$")
+pm_regex = None
+say_regex = None
 
 
 
@@ -44,7 +45,10 @@ async def on_ready():
     global token
     global puppet_master_ids
     global ignore_ids
-    global prefix 
+    global prefix
+    global prefix_been_set
+    global pm_regex
+    global say_regex
     ignore_ids.append(client.user.id) 
     for line in config_lines:
         if line == "": #ignore blank lines
@@ -109,9 +113,10 @@ async def on_ready():
 
 
         elif line.startswith("prefix:"):
-            if prefix != None:
+            if prefix_been_set == True:
                 raise RuntimeError("Multiple prefixes defined in PuppetConfig.txt!")
             
+            prefix_been_set = True
             prefix = line.split(":")[1] #everything after first colon
 
 
@@ -131,6 +136,8 @@ async def on_ready():
     if len(puppet_master_ids) == 0:
         raise RuntimeError("At least one puppet master must be defined in PuppetConfig.txt!")
 
+    say_regex = re.compile("^" + prefix + "say ([^ ]+) (.*)$")
+    pm_regex = re.compile("^" + prefix + "pm \"(.+)\" (.+)$")
 
     is_ready = True
     print("PuppetBot is ready for use!")
