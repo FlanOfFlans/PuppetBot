@@ -7,7 +7,7 @@
 #home_channel:[CHANNEL_ID] - Sets home channel. Must be a channel in home server the bot has access to.
 #master:[MASTER_ID] - Adds this user as a puppet master, allowing them to control the bot. There can be multiple.
 #ignore:[IGNORE_ID] - Ignores this user's pings. Cannot be a puppet master.
-#prefix:[PREFIX] - Sets this as the prefix for commanding the bot. If not set, "pb!" will be used instead.
+#prefix:[PREFIX] - Sets this as the prefix for commanding the bot. If not set, "pb!" will be used instead. A colon cannot be used in the prefix.
 #token:[TOKEN] - Uses this token to run the bot. To get a token, go to https://discordapp.com/developers/applications/, sign in, hit new application, customize the name and avatar of your puppet, go to the Bot tab, press "Add Bot", and copy the token.
 
 #Anything else WILL cause a crash.
